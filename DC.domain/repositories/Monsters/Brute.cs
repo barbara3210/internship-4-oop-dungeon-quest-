@@ -9,10 +9,12 @@ namespace DungeonCrawler.Domain.repositories.Monsters
     //Velik HPa i solidan damage
     public class Brute : Monster
     {
+        Random random = new Random();
 
-        public Brute(int hp, int damage, int xp)
-            : base(hp, damage, xp)
+        public Brute( int hp, int damage, int xp)
+            : base( hp, damage, xp)
         {
+            
         }
     }
 }

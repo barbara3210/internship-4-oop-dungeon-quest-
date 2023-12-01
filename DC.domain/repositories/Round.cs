@@ -8,5 +8,7 @@ namespace DungeonCrawler.Domain.repositories
 {
     public class Round
     {
+        public int RoundNum { get; set; }
+
     }
 }

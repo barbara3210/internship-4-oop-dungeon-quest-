@@ -1,5 +1,8 @@
 ﻿using DungeonCrawler.Domain.repositories;
+using DungeonCrawler.Domain.repositories.Monsters;
+using DungeonCrawler.Domain.repositories.Heroes;
 using System.Xml.Serialization;
+
 
 Console.WriteLine("Welcome to Dungeon Quest!\n");
 Console.WriteLine("Embark on a thrilling dungeon-crawling adventure \n" +
@@ -11,6 +14,26 @@ Console.WriteLine("Embark on a thrilling dungeon-crawling adventure \n" +
     "through 10 randomly generated monster battles, each presenting \n" +
     "unique challenges and rewards.\n");
 Console.WriteLine("LET'S PLAY!\n");
+
+
+
+while (true)
+{
+    string playerName=UserName();
+    PrintHeroMenu();
+    int choice = UserInput();
+
+    switch (choice)
+    {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        default:
+            break;
+    }
+}
+
 
 string UserName()
 {
@@ -43,25 +66,30 @@ int UserInput()
     } while (true);
     return choice;
 }
-
-
-while (true)
+static Monster[] TenNewMonsters()
 {
-    string playerName=UserName();
-    PrintHeroMenu();
-    int choice = UserInput();
-
-    switch (choice)
+    Monster[] monsters = new Monster[10];
+    for (int i = 0; i < 10; i++)
     {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        default:
-            break;
+        Random random = new Random();
+
+        int randomHP = random.Next(30, 101);
+        int randomDamage = random.Next(1, 81);
+        int randomXP = random.Next(20, 81);
+
+        if (random.NextDouble() < 0.6)
+        {
+            monsters[i] = new Goblin(randomHP, randomDamage, randomXP);
+        }
+        else if (random.NextDouble() > 0.7)
+        {
+            monsters[i] = new Brute(randomHP, randomDamage, randomXP);
+        }
+        else if (random.NextDouble() < 0.7 && random.NextDouble() > 0.6)
+        {
+            monsters[i] = new Witch(randomHP, randomDamage, randomXP);
+        }
     }
 
-
-
-
+    return monsters;
 }

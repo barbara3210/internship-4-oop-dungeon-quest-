@@ -8,15 +8,17 @@ namespace DungeonCrawler.Domain.repositories.Monsters
 {
     public abstract class Monster
     {
+        
         public int HealthPoints { get; set; }
         public int Damage { get; set; }
-        public int Experience { get; set; }
+        public int ExperienceWorth { get; set; }
 
-        public Monster(int hp, int damage, int xp)
+        protected Monster( int hp, int damage, int xp)
         {
+            
             HealthPoints = hp;
             Damage = damage;
-            Experience = xp;
+            ExperienceWorth = xp;
         }
 
     }

@@ -8,9 +8,12 @@ namespace DungeonCrawler.Domain.repositories.Monsters
 {
     public class Witch : Monster
     {
-        public Witch(int hp, int damage, int xp)
+        Random random = new Random();
+
+        public Witch( int hp, int damage, int xp)
             : base(hp, damage, xp)
         {
+            
         }
     }
 }

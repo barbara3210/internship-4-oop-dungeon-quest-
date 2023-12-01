@@ -19,8 +19,35 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         {
             HealthPoints = 60;
             Damage = 45;
+            CriticalChance = 0.1;
+            StunChance = 0.1;
         }
-        
+
+        public override void Attack(Monster monster)
+        {
+            Random r= new Random();
+
+            if(r.NextDouble()< CriticalChance)
+            {
+                int damageCritical = Damage * 2;
+                //monster 
+            }
+            if (r.NextDouble() < StunChance)
+            {
+                //monster gubi iducu rundu
+                Console.WriteLine($"{monster.GetType().Name} is stunned!");
+            }
+            base.Attack(monster);               
+
+        }
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            HealthPoints += 10;
+            Damage += 10;
+            CriticalChance += 0.05;
+            StunChance += 0.05;
+        }
 
     }
 }

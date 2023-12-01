@@ -9,9 +9,11 @@ namespace DungeonCrawler.Domain.repositories.Monsters
     //Malo HPa i damagea
     public class Goblin : Monster
     {
-        public Goblin(int hp, int damage, int xp)
-            : base(hp, damage, xp)
+        Random random = new Random();
+        public Goblin( int hp, int damage, int xp)
+            : base( hp, damage, xp)
         {
+           
         }
     }
 }
