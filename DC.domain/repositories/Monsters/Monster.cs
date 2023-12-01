@@ -4,23 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DungeonCrawler.Domain.repositories
+namespace DungeonCrawler.Domain.repositories.Monsters
 {
-    public class Heroes
+    public abstract class Monster
     {
-        public Players player { get; set; }
         public int HealthPoints { get; set; }
         public int Damage { get; set; }
         public int Experience { get; set; }
 
-
-
-        public Heroes() 
-        { 
-        
+        public Monster(int hp, int damage, int xp)
+        {
+            HealthPoints = hp;
+            Damage = damage;
+            Experience = xp;
         }
-
-        public virtual void Attack() { }
 
     }
 }
