@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonCrawler.Domain.repositories.Heroes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,10 +16,26 @@ namespace DungeonCrawler.Domain.repositories.Monsters
 
         protected Monster( int hp, int damage, int xp)
         {
-            
             HealthPoints = hp;
             Damage = damage;
             ExperienceWorth = xp;
+        }
+
+        public virtual void AttackHit(int damage)
+        {
+            HealthPoints -= damage;
+            if (HealthPoints < 0)
+            {
+                HealthPoints = 0;
+            }
+        }
+        public virtual void Attack(Hero hero)
+        {
+            hero.HealthPoints -= Damage;
+            if (hero.HealthPoints <= 0)
+            {
+                hero.HealthPoints = 0;
+            }
         }
 
     }

@@ -30,7 +30,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
             if(r.NextDouble()< CriticalChance)
             {
                 int damageCritical = Damage * 2;
-                //monster 
+                monster.AttackHit(damageCritical);
             }
             if (r.NextDouble() < StunChance)
             {
@@ -42,7 +42,6 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         }
         public override void LevelUp()
         {
-            base.LevelUp();
             HealthPoints += 10;
             Damage += 10;
             CriticalChance += 0.05;

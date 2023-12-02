@@ -25,9 +25,17 @@ namespace DungeonCrawler.Domain.repositories.Heroes
 
         }
 
-        public virtual void Attack(Monster monster) { }
+        public virtual void Attack(Monster monster) 
+        {
+            monster.HealthPoints -= Damage;
+            if(monster.HealthPoints < 0)
+            {
+                monster.HealthPoints = 0;
+            }
 
-        public virtual void LevelUp() { }
+        }
+
+        public abstract void LevelUp();
 
     }
 }

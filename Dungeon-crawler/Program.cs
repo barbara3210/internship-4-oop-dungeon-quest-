@@ -3,38 +3,52 @@ using DungeonCrawler.Domain.repositories.Monsters;
 using DungeonCrawler.Domain.repositories.Heroes;
 using System.Xml.Serialization;
 
-
-Console.WriteLine("Welcome to Dungeon Quest!\n");
-Console.WriteLine("Embark on a thrilling dungeon-crawling adventure \n" +
-    "with our new game, \"Dungeon Quest\"! \n" +
-    "Create your own hero and traverse through a \n" +
-    "mysterious castle filled with formidable monsters, \n" +
-    "challenging battles, and exciting strategic encounters. \n" +
-    "\nThe fate of your hero lies in your hands as you navigate \n" +
-    "through 10 randomly generated monster battles, each presenting \n" +
-    "unique challenges and rewards.\n");
-Console.WriteLine("LET'S PLAY!\n");
-
-
-
+Intro();
 while (true)
 {
-    string playerName=UserName();
-    PrintHeroMenu();
+    string playerName = UserName();
+    Round round = new Round();
+
+    Console.WriteLine("Choose your hero:");
+    Console.WriteLine("1 - Gladiator (HP:100  D:20 )\n" +
+        "2 - Enchater (HP:30  D:80 )\n" +
+        "3 - Marksman (HP:60  D:45 )");
     int choice = UserInput();
 
     switch (choice)
     {
         case 0:
+            break;
         case 1:
+            GladiatorChoice();
+            break;
         case 2:
+            EnchaterChoice();
+            break;
         case 3:
+            MarksmanChoice();
+            break;  
         default:
             break;
     }
 }
 
 
+static void Intro()
+{
+    Console.WriteLine("Welcome to Dungeon Quest!\n");
+    Console.WriteLine("Embark on a thrilling dungeon-crawling adventure \n" +
+        "with our new game, \"Dungeon Quest\"! \n" +
+        "Create your own hero and traverse through a \n" +
+        "mysterious castle filled with formidable monsters, \n" +
+        "challenging battles, and exciting strategic encounters. \n" +
+        "\nThe fate of your hero lies in your hands as you navigate \n" +
+        "through 10 randomly generated monster battles, each presenting \n" +
+        "unique challenges and rewards.\n");
+    Console.WriteLine("LET'S PLAY!\n");
+
+}
+//USER INPUTS
 string UserName()
 {
     string name;
@@ -45,13 +59,6 @@ string UserName()
 
     } while (name == null);
     return name;
-}
-void PrintHeroMenu()
-{
-    Console.WriteLine("Choose your hero:");
-    Console.WriteLine("1 - Gladiator (HP:100  D:20 )\n" +
-        "2 - Enchater (HP:30  D:80 )\n" +
-        "3 - Marksman (HP:60  D:45 )");
 }
 int UserInput()
 {
@@ -66,6 +73,28 @@ int UserInput()
     } while (true);
     return choice;
 }
+
+//HERO CHOICE
+static void GladiatorChoice()
+{
+    Monster[] monsters=TenNewMonsters();
+
+}
+
+static void EnchaterChoice()
+{
+    Monster[] monsters = TenNewMonsters();
+
+
+}
+static void MarksmanChoice()
+{
+    Monster[] monsters = TenNewMonsters();
+
+
+}
+
+//MONSTERS
 static Monster[] TenNewMonsters()
 {
     Monster[] monsters = new Monster[10];

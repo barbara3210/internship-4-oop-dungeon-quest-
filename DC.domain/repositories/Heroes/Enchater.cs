@@ -26,5 +26,12 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         {
             base.Attack(monster);
         }
+
+        public override void LevelUp()
+        {
+
+            HealthPoints += 10;
+            Damage += 10;
+        }
     }
 }
