@@ -13,12 +13,12 @@ while (true)
     Console.WriteLine("1 - Gladiator (HP:100  D:20 )\n" +
         "2 - Enchater (HP:30  D:80 )\n" +
         "3 - Marksman (HP:60  D:45 )");
-    int choice = UserInput();
+    int choice = UserInputHero();
+    if (choice == 0)
+        break;
 
     switch (choice)
     {
-        case 0:
-            break;
         case 1:
             GladiatorChoice();
             break;
@@ -54,13 +54,13 @@ string UserName()
     string name;
     do
     {
-        Console.WriteLine("Name: ");
+        Console.WriteLine("Player name: ");
         name = Console.ReadLine();
 
     } while (name == null);
     return name;
 }
-int UserInput()
+int UserInputHero()
 {
     int choice;
     do
@@ -78,6 +78,9 @@ int UserInput()
 static void GladiatorChoice()
 {
     Monster[] monsters=TenNewMonsters();
+
+    PrintAllMonsters(monsters);
+
 
 }
 
@@ -97,28 +100,39 @@ static void MarksmanChoice()
 //MONSTERS
 static Monster[] TenNewMonsters()
 {
+    Random random = new Random();
     Monster[] monsters = new Monster[10];
+
     for (int i = 0; i < 10; i++)
     {
-        Random random = new Random();
-
+        
+        double randomDouble = random.NextDouble();
         int randomHP = random.Next(30, 101);
         int randomDamage = random.Next(1, 81);
         int randomXP = random.Next(20, 81);
 
-        if (random.NextDouble() < 0.6)
+        if (randomDouble < 0.6)
         {
             monsters[i] = new Goblin(randomHP, randomDamage, randomXP);
         }
-        else if (random.NextDouble() > 0.7)
+        else if (randomDouble > 0.7)
         {
             monsters[i] = new Brute(randomHP, randomDamage, randomXP);
         }
-        else if (random.NextDouble() < 0.7 && random.NextDouble() > 0.6)
+        else if (randomDouble < 0.7 && random.NextDouble() > 0.6)
         {
             monsters[i] = new Witch(randomHP, randomDamage, randomXP);
         }
     }
 
+
     return monsters;
+}
+static void PrintAllMonsters(Monster[] monsters)
+{
+    Console.WriteLine("MONSTERS:");
+    foreach (Monster m in monsters)
+    {
+        Console.WriteLine($"{m.GetType().Name} - Damage: {m.Damage}");
+    }
 }

@@ -23,9 +23,9 @@ namespace DungeonCrawler.Domain.repositories.Monsters
         {
             base.Attack(hero);
         }
-        public override void AttackHit(int damage)
+        public override void HeroAttack(int damage)
         {
-            base.AttackHit(damage);
+            base.HeroAttack(damage);
         }
     }
 }

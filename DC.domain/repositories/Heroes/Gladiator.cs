@@ -26,7 +26,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
             if (RagePossible(HealthPoints))
             {
                 int doubleDamage = Damage * 2;
-                //monster attack
+                monster.HeroAttack(doubleDamage);
 
                 int rageHealth = (int)(0.15 * HealthPoints);
                 HealthPoints -= rageHealth;

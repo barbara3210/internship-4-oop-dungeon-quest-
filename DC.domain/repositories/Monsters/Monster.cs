@@ -21,7 +21,7 @@ namespace DungeonCrawler.Domain.repositories.Monsters
             ExperienceWorth = xp;
         }
 
-        public virtual void AttackHit(int damage)
+        public virtual void HeroAttack(int damage)
         {
             HealthPoints -= damage;
             if (HealthPoints < 0)

@@ -30,7 +30,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
             if(r.NextDouble()< CriticalChance)
             {
                 int damageCritical = Damage * 2;
-                monster.AttackHit(damageCritical);
+                monster.HeroAttack(damageCritical);
             }
             if (r.NextDouble() < StunChance)
             {
