@@ -11,8 +11,8 @@ namespace DungeonCrawler.Domain.repositories.Monsters
     {
         Random random = new Random();
 
-        public Witch( int hp, int damage, int xp)
-            : base(hp, damage, xp)
+        public Witch( int hp, int damage, int xp, bool isStunned)
+            : base(hp, damage, xp, isStunned)
         {
             HealthPoints = random.Next(20, 100);
             Damage = random.Next(20, 80);
@@ -33,8 +33,8 @@ namespace DungeonCrawler.Domain.repositories.Monsters
                 int rndXP = random.Next(2, 25);
                 int rndD = random.Next(2, 25);
 
-                new Goblin(rndHP, rndD, rndXP);
-                new Goblin(rndHP, rndD, rndXP);
+                new Goblin(rndHP, rndD, rndXP,false);
+                new Goblin(rndHP, rndD, rndXP,false);
 
             }
         }

@@ -13,12 +13,14 @@ namespace DungeonCrawler.Domain.repositories.Monsters
         public int HealthPoints { get; set; }
         public int Damage { get; set; }
         public int ExperienceWorth { get; set; }
+        public bool IsStunned { get; set; }
 
-        protected Monster( int hp, int damage, int xp)
+        protected Monster( int hp, int damage, int xp, bool isStunned)
         {
             HealthPoints = hp;
             Damage = damage;
             ExperienceWorth = xp;
+            IsStunned = isStunned;
         }
 
         public virtual void HeroAttack(int damage)

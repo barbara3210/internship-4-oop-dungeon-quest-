@@ -12,8 +12,8 @@ namespace DungeonCrawler.Domain.repositories.Monsters
     {
         Random random = new Random();
 
-        public Brute( int hp, int damage, int xp)
-            : base( hp, damage, xp)
+        public Brute( int hp, int damage, int xp,bool isStunned)
+            : base( hp, damage, xp, isStunned)
         {
             HealthPoints = random.Next(50, 80);
             Damage = random.Next(30, 80);

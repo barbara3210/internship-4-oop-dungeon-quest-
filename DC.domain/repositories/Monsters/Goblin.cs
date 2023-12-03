@@ -11,8 +11,8 @@ namespace DungeonCrawler.Domain.repositories.Monsters
     public class Goblin : Monster
     {
         Random random = new Random();
-        public Goblin( int hp, int damage, int xp)
-            : base( hp, damage, xp)
+        public Goblin( int hp, int damage, int xp,bool isStunned)
+            : base( hp, damage, xp,isStunned)
         {
             HealthPoints = random.Next(5,25);
             Damage = random.Next(5, 25);
