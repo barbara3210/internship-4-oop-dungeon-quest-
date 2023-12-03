@@ -35,6 +35,13 @@ namespace DungeonCrawler.Domain.repositories.Heroes
 
         }
 
+        public virtual void GainXP(Monster monster)
+        {
+            int gain=monster.ExperienceWorth;
+            Experience += gain;
+
+        }
+
         public abstract void LevelUp();
 
     }

@@ -14,13 +14,13 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         //■	Ima najmanji HP i najveći damage
         public int Mana { get; private set; }
 
-        public Enchater(string player, int hp, int damage, int xp, int mana)
+        public Enchater(string player, int hp, int damage, int xp)
             : base(player, hp, damage, xp)
         {
             HealthPoints = 30;
             Damage = 80;
 
-            Mana = mana;
+            Mana = 30;
         }
         public override void Attack(Monster monster)
         {

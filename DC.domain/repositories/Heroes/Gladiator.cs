@@ -15,10 +15,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         public Gladiator(string player, int hp, int damage, int xp)
             : base(player, hp, damage, xp)
         {
-            HealthPoints = 100;
-            Damage = 20;
-
-
+            
         }
         public override void Attack(Monster monster)
         {

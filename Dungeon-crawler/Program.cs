@@ -1,22 +1,28 @@
 ﻿using DungeonCrawler.Domain.repositories;
 using DungeonCrawler.Domain.repositories.Monsters;
 using DungeonCrawler.Domain.repositories.Heroes;
-using System.Xml.Serialization;
 
 Intro();
 while (true)
 {
-    string playerName = UserName();
+    //START
+    Console.WriteLine("PRESS TO PLAY \n" +
+        "PRESS X - BREAK");
+
+    var play=Console.ReadLine();
+    if (play.ToLower() == "x")
+    {
+        break;
+    }
+
     Round round = new Round();
 
-    Console.WriteLine("Choose your hero:");
-    Console.WriteLine("1 - Gladiator (HP:100  D:20 )\n" +
-        "2 - Enchater (HP:30  D:80 )\n" +
+    int choice = GetValidNumber("Choose your hero:\n" +
+        "1 - Gladiator (HP:100  D:20 )\n" + 
+        "2 - Enchater (HP:30  D:80 )\n"+
         "3 - Marksman (HP:60  D:45 )");
-    int choice = UserInputHero();
-    if (choice == 0)
-        break;
-
+   
+   
     switch (choice)
     {
         case 1:
@@ -49,51 +55,92 @@ static void Intro()
 
 }
 //USER INPUTS
-string UserName()
-{
-    string name;
-    do
-    {
-        Console.WriteLine("Player name: ");
-        name = Console.ReadLine();
 
-    } while (name == null);
-    return name;
-}
-int UserInputHero()
+static int GetValidNumber(string message)
 {
-    int choice;
+    int value;
     do
     {
-        Console.WriteLine("Your hero: ");
-        var c = Console.ReadLine();
-        if (int.TryParse(c, out choice))
+        Console.WriteLine(message);
+        var input = int.TryParse(Console.ReadLine(), out value);
+        if (!input)
+        {
+            Console.WriteLine("Try again");
+        }
+        else
+        {
             break;
-        Console.WriteLine("Try again");
+        }
     } while (true);
-    return choice;
+    return value;
+}
+
+
+//GAME
+
+static void Play()
+{
+    Monster[] monsters = TenNewMonsters();
+
 }
 
 //HERO CHOICE
 static void GladiatorChoice()
 {
-    Monster[] monsters=TenNewMonsters();
-
-    PrintAllMonsters(monsters);
+    
+    Gladiator gladiator = new Gladiator("Player1", 100, 20, 0);
+    CreateHero(gladiator);
 
 
 }
 
 static void EnchaterChoice()
 {
-    Monster[] monsters = TenNewMonsters();
-
+   
+    Enchater enchater = new Enchater("Player1", 30, 80, 0);
+    CreateHero(enchater);
 
 }
 static void MarksmanChoice()
 {
-    Monster[] monsters = TenNewMonsters();
+    Marksman marksman = new Marksman("Player1", 60, 45, 0);
+    CreateHero(marksman);
 
+
+}
+
+static void CreateHero(Hero hero)
+{
+    int input = GetValidNumber("1 - set up your hero\n" +
+        "2 - generate your hero");
+
+    if (input==1)
+    {
+        string name;
+        while (true)
+        {
+            Console.WriteLine("Hero name: ");
+            var inputName = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(inputName))
+            {
+                Console.WriteLine("Name cannot be empty");
+            }
+            else
+            {
+                name = inputName;
+                break;
+            }
+        }
+        hero.Player = name;
+
+        int hp = GetValidNumber("Input Health Points: ");
+        hero.HealthPoints = hp;
+
+        int damage = GetValidNumber("Input Damage Points: ");
+        hero.Damage = damage;
+
+    }
 
 }
 
@@ -113,15 +160,15 @@ static Monster[] TenNewMonsters()
 
         if (randomDouble < 0.6)
         {
-            monsters[i] = new Goblin(randomHP, randomDamage, randomXP);
+            monsters[i] = new Goblin(randomHP, randomDamage, randomXP,false);
         }
         else if (randomDouble > 0.7)
         {
-            monsters[i] = new Brute(randomHP, randomDamage, randomXP);
+            monsters[i] = new Brute(randomHP, randomDamage, randomXP,false);
         }
         else if (randomDouble < 0.7 && random.NextDouble() > 0.6)
         {
-            monsters[i] = new Witch(randomHP, randomDamage, randomXP);
+            monsters[i] = new Witch(randomHP, randomDamage, randomXP, false);
         }
     }
 
@@ -131,8 +178,20 @@ static Monster[] TenNewMonsters()
 static void PrintAllMonsters(Monster[] monsters)
 {
     Console.WriteLine("MONSTERS:");
-    foreach (Monster m in monsters)
+    for (int i = 0; i < monsters.Length; i++)
     {
-        Console.WriteLine($"{m.GetType().Name} - Damage: {m.Damage}");
+        if (monsters[i] != null)
+        {
+            Console.WriteLine($"{monsters[i].GetType().Name} - Damage: {monsters[i].Damage} - Health: {monsters[i].HealthPoints}");
+        }
     }
 }
+
+//GAME STATICS
+static void GameDisplay(Monster[] monsters)
+{
+    Console.WriteLine("Current game state:");
+    PrintAllMonsters(monsters);
+
+}
+
