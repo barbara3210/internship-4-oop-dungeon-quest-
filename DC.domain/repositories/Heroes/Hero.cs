@@ -39,10 +39,19 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         {
             int gain=monster.ExperienceWorth;
             Experience += gain;
+            if (Experience >= 100)
+            {
+                LevelUp();
+                Experience %= 100; 
+            }
 
         }
 
-        public abstract void LevelUp();
+        public virtual void LevelUp()
+        {
+            HealthPoints += 10;
+            Damage += 10;
+        }
 
     }
 }

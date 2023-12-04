@@ -47,8 +47,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         }
         public override void LevelUp()
         {
-            HealthPoints += 10;
-            Damage += 10;
+            base.LevelUp();
             CriticalChance += 0.05;
             StunChance += 0.05;
         }

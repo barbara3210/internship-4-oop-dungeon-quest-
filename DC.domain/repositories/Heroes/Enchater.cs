@@ -54,8 +54,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         public override void LevelUp()
         {
             
-            HealthPoints += 10;
-            Damage += 10;
+            base .LevelUp();
             Mana += 10;
         }
     }
