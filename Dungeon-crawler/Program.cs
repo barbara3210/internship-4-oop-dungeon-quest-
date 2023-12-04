@@ -3,6 +3,8 @@ using DungeonCrawler.Domain.repositories.Monsters;
 using DungeonCrawler.Domain.repositories.Heroes;
 
 Intro();
+
+
 while (true)
 {
     //START
@@ -14,9 +16,8 @@ while (true)
     {
         break;
     }
-
-    Round round = new Round();
-
+    Console.Clear();
+    
     int choice = GetValidNumber("Choose your hero:\n" +
         "1 - Gladiator (HP:100  D:20 )\n" + 
         "2 - Enchater (HP:30  D:80 )\n"+
@@ -55,7 +56,6 @@ static void Intro()
 
 }
 //USER INPUTS
-
 static int GetValidNumber(string message)
 {
     int value;
@@ -63,7 +63,7 @@ static int GetValidNumber(string message)
     {
         Console.WriteLine(message);
         var input = int.TryParse(Console.ReadLine(), out value);
-        if (!input)
+        if (!input || value<1)
         {
             Console.WriteLine("Try again");
         }
@@ -75,14 +75,65 @@ static int GetValidNumber(string message)
     return value;
 }
 
-
 //GAME
-
-static void Play()
+static void StartGame(Hero hero)
 {
+    Console.WriteLine("Press to start...");
+    Console.ReadLine();
+    Console.Clear();
+
     Monster[] monsters = TenNewMonsters();
+    GameDisplay(monsters,hero);
+    FightMonster(monsters,hero);
 
 }
+
+static Dictionary<int, string> DefineMoves()
+{
+    Dictionary<int, string> moves = new Dictionary<int, string>();
+    moves.Add(1,"CounterAttack");
+    moves.Add(2, "DirectAttack");
+    moves.Add(3, "SideAttack");
+
+    return moves;
+}
+static void FightMonster(Monster[]monsters, Hero hero)
+{
+    
+    Dictionary<int , string> moves = DefineMoves();
+    Console.WriteLine();
+    foreach (KeyValuePair<int, string> element in moves)
+    {
+        Console.WriteLine($"{element.Key} - {element.Value}");
+    }
+
+    int choice;
+    do
+    {
+        choice = GetValidNumber("\nChoose your move: ");
+    } while (!moves.ContainsKey(choice));
+
+    string selectedMove = moves[choice];
+    Console.WriteLine($"You: {selectedMove}");
+
+    int monsterMove = GenerateMonsterMove();
+    string selectedMonsterMove = moves[monsterMove];
+    Console.WriteLine($"Monster: {selectedMonsterMove}\n");
+
+    Round round = new Round(selectedMove, selectedMonsterMove);
+    round.RoundStat();
+
+
+}
+
+static int GenerateMonsterMove()
+{
+    Random random = new Random();
+    return random.Next(1, 4);
+}
+
+
+
 
 //HERO CHOICE
 static void GladiatorChoice()
@@ -90,6 +141,9 @@ static void GladiatorChoice()
     
     Gladiator gladiator = new Gladiator("Player1", 100, 20, 0);
     CreateHero(gladiator);
+    Console.Clear();
+    StartGame(gladiator);
+    
 
 
 }
@@ -99,18 +153,24 @@ static void EnchaterChoice()
    
     Enchater enchater = new Enchater("Player1", 30, 80, 0);
     CreateHero(enchater);
+    Console.Clear();
+    StartGame(enchater);
 
 }
 static void MarksmanChoice()
 {
     Marksman marksman = new Marksman("Player1", 60, 45, 0);
     CreateHero(marksman);
+    Console.Clear();
+    StartGame(marksman);
 
 
 }
 
 static void CreateHero(Hero hero)
 {
+    Console.Clear();
+
     int input = GetValidNumber("1 - set up your hero\n" +
         "2 - generate your hero");
 
@@ -186,12 +246,19 @@ static void PrintAllMonsters(Monster[] monsters)
         }
     }
 }
+static void PrintHeroStat(Hero hero)
+{
+    Console.WriteLine("YOUR HERO:");
+    Console.WriteLine($"{hero.GetType().Name} - Damage: {hero.Damage} - HP: {hero.HealthPoints} - XP: {hero.Experience}");
+
+}
 
 //GAME STATICS
-static void GameDisplay(Monster[] monsters)
+static void GameDisplay(Monster[] monsters,Hero hero)
 {
     Console.WriteLine("Current game state:");
     PrintAllMonsters(monsters);
+    PrintHeroStat(hero);
 
 }
 
