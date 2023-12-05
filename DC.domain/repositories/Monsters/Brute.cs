@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler.Domain.repositories.Monsters
 {
-    //Velik HPa i solidan damage
+   
     public class Brute : Monster
     {
         Random random = new Random();

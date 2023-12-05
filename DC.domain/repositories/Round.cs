@@ -31,8 +31,10 @@ namespace DungeonCrawler.Domain.repositories
                 return true;
             return false;
         }
-        public bool RoundStat(Hero hero, Monster monster)
+        public bool HeroWins(Hero hero, Monster monster)
         {
+            Console.WriteLine("----------------------------------");
+
             if (HeroAction == MonsterAction)
             {
                 Console.WriteLine("Both sides chose the same action");
@@ -53,6 +55,7 @@ namespace DungeonCrawler.Domain.repositories
             else
             {
                 monster.Attack(hero);
+                
                 if (hero.HealthPoints <= 0)
                     Console.WriteLine("Monster wins the round!");
                 return false;

@@ -40,7 +40,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
             {
                 //monster gubi iducu rundu
                 Console.WriteLine($"(HERO) {monster.GetType().Name} is stunned!");
-                monster.IsStunned = true;
+                monster.SkipNextRound();
             }
                         
 

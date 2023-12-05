@@ -55,8 +55,8 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         }
         public virtual void LevelUp()
         {
-            
-            HealthPoints += 10;
+            int levelUpHP = (int)(HealthPoints * 0.25);
+            HealthPoints += levelUpHP;
             Damage += 10;
             Console.WriteLine("(HERO) LEVEL UP");
         }

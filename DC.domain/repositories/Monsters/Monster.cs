@@ -40,6 +40,10 @@ namespace DungeonCrawler.Domain.repositories.Monsters
             }
             Console.WriteLine("(MONSTER) Preformed attack!");
         }
+        public virtual void SkipNextRound()
+        {
+            IsStunned = true;
+        }
         public bool IsDefeated()
         {
             if (HealthPoints == 0)

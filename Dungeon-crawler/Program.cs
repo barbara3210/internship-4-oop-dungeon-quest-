@@ -1,18 +1,22 @@
 ﻿using DungeonCrawler.Domain.repositories;
 using DungeonCrawler.Domain.repositories.Monsters;
 using DungeonCrawler.Domain.repositories.Heroes;
+using System.Text;
+using System.Threading;
+using System.Runtime.CompilerServices;
 
 Intro();
 
+bool quit=false;
 
-while (true)
+while (!quit)
 {
     //START
     Console.WriteLine("PRESS TO PLAY \n" +
         "PRESS X - BREAK");
 
-    var play=Console.ReadLine();
-    if (play.ToLower() == "x")
+    var playInput=Console.ReadLine();
+    if (playInput.ToLower() == "x")
     {
         break;
     }
@@ -22,8 +26,7 @@ while (true)
         "1 - Gladiator (HP:100  D:20 )\n" + 
         "2 - Enchater (HP:30  D:80 )\n"+
         "3 - Marksman (HP:60  D:45 )");
-   
-   
+
     switch (choice)
     {
         case 1:
@@ -34,10 +37,12 @@ while (true)
             break;
         case 3:
             MarksmanChoice();
-            break;  
+            break;
         default:
+            RetryOrQuit();
             break;
     }
+
 }
 
 
@@ -90,10 +95,12 @@ static string CheckYN(string message)
     
 }
 
+
+
 //GAME
 static void StartGame(Hero hero)
 {
-    Console.WriteLine("Press to start...");
+    Console.WriteLine("Press key to start...");
     Console.ReadLine();
     Console.Clear();
 
@@ -129,8 +136,8 @@ static void Play(Monster[]monsters, Hero hero)
     int r=1;
     foreach(Monster monster in monsters)
     {
-        
-        
+
+        r += 1;
 
         while(true)
         {
@@ -141,15 +148,7 @@ static void Play(Monster[]monsters, Hero hero)
             Console.WriteLine("=============================\n");
             PrintMoves(moves);
 
-            do
-            {
-                choice = GetValidNumber("\nChoose your move: ");
-                if (!moves.ContainsKey(choice))
-                {
-                    Console.WriteLine("Try again (1/2/3)");
-                }
-            } while (!moves.ContainsKey(choice));
-
+            choice = GenerateHeroMove(moves);
             string selectedMove = moves[choice];
             Console.WriteLine($"You: {selectedMove}");
 
@@ -157,30 +156,18 @@ static void Play(Monster[]monsters, Hero hero)
             string selectedMonsterMove = moves[monsterMove];
             Console.WriteLine($"Monster: {selectedMonsterMove}\n");
 
-            Round round = new Round(selectedMove, selectedMonsterMove, r);
-            bool heroWon = round.RoundStat(hero, monster);
-            if (heroWon)
+            Round round = new Round(selectedMove, selectedMonsterMove,r);
+            GameOutcome(monster, hero, round, monsters);
+
+            string quitInput = CheckYN("Do you want to quit? Y/N");
+            if (quitInput == "yes")
             {
-                hero.LevelUp();
-                r += 1;
-                break;
-            }
-            else if (hero.IsDefeated())
-            {
-                GameOver(hero);
+                Console.Clear();
                 return;
             }
-            else
-            {
-                string quit= CheckYN("Do you want to quit? Y/N");
-                if (quit == "yes")
-                    break;
-                Console.WriteLine("Round continues...");
-
-            }
-            Console.WriteLine();
+            Console.WriteLine("Round continues...\n");
             GameDisplay(monsters, hero);
-            Console.WriteLine("Press key to proceed to the next round...");
+            Console.WriteLine("\nPress key to proceed to the next round...");
             Console.ReadKey();
         }
         
@@ -196,8 +183,41 @@ static int GenerateMonsterMove()
     Random random = new Random();
     return random.Next(1, 4);
 }
+static int GenerateHeroMove(Dictionary<int, string> moves)
+{
+    int choice;
+    do
+    {
+        choice = GetValidNumber("\nChoose your move: ");
+        if (!moves.ContainsKey(choice))
+        {
+            Console.WriteLine("Try again (1/2/3)");
+        }
+    } while (!moves.ContainsKey(choice));
+    return choice;
+}
+static void GameOutcome(Monster monster, Hero hero, Round round, Monster[]monsters)
+{
+    bool heroWon = round.HeroWins(hero, monster);
 
-
+    if (monster.GetType() == typeof(Witch))
+    {
+        Witch witch = (Witch)monster;
+        if (witch.DjumbusAttack)
+            witch.DjumbusMonsters(monsters);
+    }
+    if (heroWon)
+    {
+        hero.LevelUp();
+        
+    }
+    else if (hero.IsDefeated())
+    {
+        GameOver(hero);
+        
+    }
+    
+}
 
 
 //HERO CHOICE
@@ -232,6 +252,7 @@ static void MarksmanChoice()
 
 }
 
+//CREATE AND PRINT
 static void CreateHero(Hero hero)
 {
     Console.Clear();
@@ -266,10 +287,16 @@ static void CreateHero(Hero hero)
         hero.Damage = damage;
 
     }
+    else if(input == 2)
+    {
+        Console.WriteLine($"Hero: {hero.GetType().Name} - Damage: {hero.Damage} - HP: {hero.HealthPoints} - XP: {hero.Experience}\n");
+    }
+    else
+    {
+        Console.WriteLine("We are generating your hero...");
+    }
 
 }
-
-//MONSTERS
 static Monster[] TenNewMonsters()
 {
     Random random = new Random();
@@ -321,15 +348,31 @@ static void PrintHeroStat(Hero hero)
 //GAME STATICS
 static void GameDisplay(Monster[] monsters,Hero hero)
 {
-    Console.WriteLine("Current game state:");
-    PrintAllMonsters(monsters);
+    Console.WriteLine("Current game state:\n");
     PrintHeroStat(hero);
+    PrintAllMonsters(monsters);
+    
 
 }
 
 static void GameOver(Hero hero)
 {
-    PrintHeroStat(hero);
+    Console.Clear();
     Console.WriteLine("--GAME OVER--");
+    PrintHeroStat(hero);
 
+    
+
+}
+static void RetryOrQuit()
+{
+    string retry = CheckYN("Do you want to try again? Y/N");
+    if (retry == "yes")
+    {
+        Console.Clear();
+    }
+    else
+    {
+        return;
+    }
 }
