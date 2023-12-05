@@ -7,9 +7,8 @@ using System.Runtime.CompilerServices;
 
 Intro();
 
-bool quit=false;
 
-while (!quit)
+while (true)
 {
     //START
     Console.WriteLine("PRESS TO PLAY \n" +
@@ -373,6 +372,6 @@ static void RetryOrQuit()
     }
     else
     {
-        return;
+        Environment.Exit(0);
     }
 }
