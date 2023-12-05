@@ -39,7 +39,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
             if (r.NextDouble() < StunChance)
             {
                 //monster gubi iducu rundu
-                Console.WriteLine($"{monster.GetType().Name} is stunned!");
+                Console.WriteLine($"(HERO) {monster.GetType().Name} is stunned!");
                 monster.IsStunned = true;
             }
                         

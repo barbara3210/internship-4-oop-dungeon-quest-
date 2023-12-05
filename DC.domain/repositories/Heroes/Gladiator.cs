@@ -38,13 +38,13 @@ namespace DungeonCrawler.Domain.repositories.Heroes
         {
             if (hp <= 10)
             {
-                Console.WriteLine("Health is too low for a rage attack");
+                Console.WriteLine("(HERO) Health is too low for a rage attack");
                 return false;
             }
             string choice;
             do
             {
-                Console.WriteLine("Do you want RAGE attack? Y/N");
+                Console.WriteLine("(HERO) Do you want RAGE attack? Y/N");
                 var c = Console.ReadLine();
                 if (c != null)
                 {

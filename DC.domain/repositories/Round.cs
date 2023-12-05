@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DungeonCrawler.Domain.repositories.Heroes;
+using DungeonCrawler.Domain.repositories.Monsters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +12,13 @@ namespace DungeonCrawler.Domain.repositories
     {
         public string HeroAction { get; }
         public string MonsterAction { get; }
+        public int RoundNum { get; set; }
 
-        public Round(string heroAction, string monsterAction)
+        public Round(string heroAction, string monsterAction, int roundNum)
         {
             HeroAction = heroAction;
             MonsterAction = monsterAction;
+            RoundNum = roundNum;
         }
 
         private bool BeatingMove()
@@ -27,21 +31,35 @@ namespace DungeonCrawler.Domain.repositories
                 return true;
             return false;
         }
-        public void RoundStat()
+        public bool RoundStat(Hero hero, Monster monster)
         {
             if (HeroAction == MonsterAction)
             {
                 Console.WriteLine("Both sides chose the same action");
+                return false;
             }
             else if (BeatingMove())
             {
-                Console.WriteLine("Hero wins the round!");
+                hero.Attack(monster);
+                if (monster.HealthPoints <= 0)
+                {
+                    Console.WriteLine("Hero wins the round!");
+                    hero.GainXP(monster);
+                    return true;
+                }
+                return false;
+                    
             }
             else
             {
-                Console.WriteLine("Monster wins the round!");
+                monster.Attack(hero);
+                if (hero.HealthPoints <= 0)
+                    Console.WriteLine("Monster wins the round!");
+                return false;
+
             }
         }
+
 
     }
 }

@@ -27,7 +27,7 @@ namespace DungeonCrawler.Domain.repositories.Monsters
             
             if (chance > 0.5)
             {
-                Console.WriteLine("STRONG ATTACK");
+                Console.WriteLine("(MONSTER) STRONG ATTACK");
                 int damageStrongAttack = (int)(hero.HealthPoints * 0.2);
                 hero.HealthPoints-=damageStrongAttack;
 

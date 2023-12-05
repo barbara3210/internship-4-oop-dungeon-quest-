@@ -46,11 +46,19 @@ namespace DungeonCrawler.Domain.repositories.Heroes
             }
 
         }
-
+        public bool IsDefeated()
+        {
+            if (HealthPoints == 0)
+                return true;
+            else
+                return false;
+        }
         public virtual void LevelUp()
         {
+            
             HealthPoints += 10;
             Damage += 10;
+            Console.WriteLine("(HERO) LEVEL UP");
         }
 
     }

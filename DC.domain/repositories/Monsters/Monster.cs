@@ -38,6 +38,14 @@ namespace DungeonCrawler.Domain.repositories.Monsters
             {
                 hero.HealthPoints = 0;
             }
+            Console.WriteLine("(MONSTER) Preformed attack!");
+        }
+        public bool IsDefeated()
+        {
+            if (HealthPoints == 0)
+                return true;
+            else
+                return false;
         }
 
     }

@@ -31,7 +31,7 @@ namespace DungeonCrawler.Domain.repositories.Heroes
             }
             else
             {
-                Console.WriteLine("No more mana");
+                Console.WriteLine("(HERO) No more mana");
                 Mana = 100;
             }
             
@@ -43,11 +43,11 @@ namespace DungeonCrawler.Domain.repositories.Heroes
             {
                 HealthPoints += Mana;
                 Mana -= manaToUse;
-                Console.WriteLine($"Used {manaToUse} mana to restore HP");
+                Console.WriteLine($"(HERO) Used {manaToUse} mana to restore HP");
             }
             else
             {
-                Console.WriteLine("Not enough mana to perform this action.");
+                Console.WriteLine("(HERO) Not enough mana to perform this action.");
             }
         }
 

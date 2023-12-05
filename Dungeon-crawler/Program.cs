@@ -46,9 +46,6 @@ static void Intro()
     Console.WriteLine("Welcome to Dungeon Quest!\n");
     Console.WriteLine("Embark on a thrilling dungeon-crawling adventure \n" +
         "with our new game, \"Dungeon Quest\"! \n" +
-        "Create your own hero and traverse through a \n" +
-        "mysterious castle filled with formidable monsters, \n" +
-        "challenging battles, and exciting strategic encounters. \n" +
         "\nThe fate of your hero lies in your hands as you navigate \n" +
         "through 10 randomly generated monster battles, each presenting \n" +
         "unique challenges and rewards.\n");
@@ -74,6 +71,24 @@ static int GetValidNumber(string message)
     } while (true);
     return value;
 }
+static string CheckYN(string message)
+{
+    char [] yn = { 'y', 'n' };
+    do
+    {
+        Console.WriteLine(message);
+        var input = char.TryParse(Console.ReadLine().ToLower(),out char answer);
+        if (input && yn.Contains(answer))
+        {
+            return answer == 'y' ? "yes" : "no";
+        }
+        else
+        {
+            Console.WriteLine("Try again (Y/N)");
+        }
+    } while (true);
+    
+}
 
 //GAME
 static void StartGame(Hero hero)
@@ -84,7 +99,7 @@ static void StartGame(Hero hero)
 
     Monster[] monsters = TenNewMonsters();
     GameDisplay(monsters,hero);
-    FightMonster(monsters,hero);
+    Play(monsters,hero);
 
 }
 
@@ -97,31 +112,81 @@ static Dictionary<int, string> DefineMoves()
 
     return moves;
 }
-static void FightMonster(Monster[]monsters, Hero hero)
+static void PrintMoves(Dictionary<int, string> moves)
 {
-    
-    Dictionary<int , string> moves = DefineMoves();
-    Console.WriteLine();
     foreach (KeyValuePair<int, string> element in moves)
     {
         Console.WriteLine($"{element.Key} - {element.Value}");
     }
-
+}
+static void Play(Monster[]monsters, Hero hero)
+{
+    
+    Dictionary<int , string> moves = DefineMoves();
+    Console.WriteLine();
+    
     int choice;
-    do
+    int r=1;
+    foreach(Monster monster in monsters)
     {
-        choice = GetValidNumber("\nChoose your move: ");
-    } while (!moves.ContainsKey(choice));
+        
+        
 
-    string selectedMove = moves[choice];
-    Console.WriteLine($"You: {selectedMove}");
+        while(true)
+        {
+            Console.Clear();
+            Console.WriteLine("=============================");
+            Console.WriteLine($"{hero.GetType().Name} VS. {monster.GetType().Name}");
+            Console.WriteLine($"Round: {r}");
+            Console.WriteLine("=============================\n");
+            PrintMoves(moves);
 
-    int monsterMove = GenerateMonsterMove();
-    string selectedMonsterMove = moves[monsterMove];
-    Console.WriteLine($"Monster: {selectedMonsterMove}\n");
+            do
+            {
+                choice = GetValidNumber("\nChoose your move: ");
+                if (!moves.ContainsKey(choice))
+                {
+                    Console.WriteLine("Try again (1/2/3)");
+                }
+            } while (!moves.ContainsKey(choice));
 
-    Round round = new Round(selectedMove, selectedMonsterMove);
-    round.RoundStat();
+            string selectedMove = moves[choice];
+            Console.WriteLine($"You: {selectedMove}");
+
+            int monsterMove = GenerateMonsterMove();
+            string selectedMonsterMove = moves[monsterMove];
+            Console.WriteLine($"Monster: {selectedMonsterMove}\n");
+
+            Round round = new Round(selectedMove, selectedMonsterMove, r);
+            bool heroWon = round.RoundStat(hero, monster);
+            if (heroWon)
+            {
+                hero.LevelUp();
+                r += 1;
+                break;
+            }
+            else if (hero.IsDefeated())
+            {
+                GameOver(hero);
+                return;
+            }
+            else
+            {
+                string quit= CheckYN("Do you want to quit? Y/N");
+                if (quit == "yes")
+                    break;
+                Console.WriteLine("Round continues...");
+
+            }
+            Console.WriteLine();
+            GameDisplay(monsters, hero);
+            Console.WriteLine("Press key to proceed to the next round...");
+            Console.ReadKey();
+        }
+        
+
+    }
+
 
 
 }
@@ -262,3 +327,9 @@ static void GameDisplay(Monster[] monsters,Hero hero)
 
 }
 
+static void GameOver(Hero hero)
+{
+    PrintHeroStat(hero);
+    Console.WriteLine("--GAME OVER--");
+
+}
